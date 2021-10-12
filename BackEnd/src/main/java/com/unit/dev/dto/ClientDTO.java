@@ -1,36 +1,38 @@
-package com.unit.dev.entities;
+package com.unit.dev.dto;
 
-import javax.persistence.*;
+import com.unit.dev.entities.Client;
+
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
 
-@Entity
-@Table (name = "tb_client")
-public class Client implements Serializable {
-    private static final Long serialVersionUID = 1L;
+public class ClientDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private  String name;
     private String cpf;
     private Double income;
-
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant birthdate;
     private Integer children;
 
-    public  Client(){}
+    public ClientDTO(){}
 
-
-    public Client(Long id, String name, String cpf, Double income, Instant birthdate, Integer children) {
+    public ClientDTO(Long id, String name, String cpf, Double income, Instant birthdate, Integer children) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.income = income;
-        this.birthdate = this.birthdate;
+        this.birthdate = birthdate;
         this.children = children;
+    }
+
+    public  ClientDTO(Client entity){
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.cpf = entity.getCpf();
+        this.income = entity.getIncome();
+        this.birthdate = entity.getBirthdate();
+        this.children = entity.getChildren();
     }
 
     public Long getId() {
@@ -80,26 +82,4 @@ public class Client implements Serializable {
     public void setChildren(Integer children) {
         this.children = children;
     }
-
-
-    public void salveTime(){
-        birthdate = Instant.now();
-    }
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return id.equals(client.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
-
-
